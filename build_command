@@ -1,0 +1,2 @@
+g++ -I . -o COEGen main.cpp -lstdc++ -lboost_program_options
+
