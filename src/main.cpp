@@ -1,9 +1,11 @@
 // COE generator by Darren Anderson
 #include <boost/program_options.hpp>
+#include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <fstream>
 #include <string>
 
+using namespace boost;
 namespace pOptions = boost::program_options;
 
 void DoConversion(std::string fname, int width, int depth)
@@ -53,13 +55,24 @@ void DoConversion(std::string fname, int width, int depth)
 
                         if(bufcnt <= filesize)
                         {
-                            outputfile << std::hex << (int)buffer[bufcnt];
+			    int hex_val = (int)buffer[bufcnt];
+			    if (hex_val < 0x10)
+			    {
+				outputfile << "0";
+			        outputfile << std::hex << hex_val;
+                            }
+			    else
+			    {
+				 outputfile << std::hex << hex_val;
+			    }
+			    //outputfile << std::hex << (int)buffer[bufcnt];
                         }
                         else
                         {
                             outputfile << "00";
                         }
                     }
+
                     if(dcnt != (depth-1))
                     {
                         outputfile << "," << std::endl;
